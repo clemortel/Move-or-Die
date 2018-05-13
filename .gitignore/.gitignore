@@ -1,0 +1,280 @@
+int x = 50;
+int y = 50;
+int mur = color(132, 46, 27);
+int P = 0;
+PImage gazon;
+PImage homme;
+PImage gameover;
+PImage carlo2;
+PImage fleche;
+PImage home;
+PImage decor8;
+PImage poursuite;
+PImage bois;
+ennemi carlo = new ennemi(1100,300,color(255));
+ennemi plancton = new ennemi(1100,300, color(225));
+Balle balle;
+
+class Balle {
+  //Déclaration des paramètres de base de la balle
+  float x;
+  float y;
+  float vitesseX; //AJOUT
+  float vitesseY; //AJOUT
+  color couleur; boolean mouvement = false;
+  //Constructeur de la balle
+  Balle (float nouvX, float nouvY, color nouvCouleur, int _vitesseX, int _vitesseY) {
+    x          = nouvX;
+    y          = nouvY;
+    couleur    = nouvCouleur;
+    vitesseX = _vitesseX; //AJOUT
+    vitesseY = _vitesseY; //AJOUT
+    }
+  //Dessin de la balle
+  void display() {
+    fill(couleur);
+    ellipse(x, y, 10, 10);
+  }
+  
+  void bouge() {
+   x = x + vitesseX;
+   y = y + vitesseY;
+  }
+
+  
+    
+}
+
+
+void setup() 
+{
+   size(1350, 700);
+   bois = loadImage ("http://fotomelia.com/wp-content/uploads/edd/2015/05/wood-texture-mur-de-bois-planche-fa%C3%A7ade-images-photos-gratuites1-1560x1040.jpg");
+ 
+   fleche = loadImage("http://www.smitred.com/sites/default/files/images/550px-Recycling_symbol2_svg.png");
+  homme = loadImage("http://a398.idata.over-blog.com/300x295/2/26/37/76/divers/Bob_l-eponge-Personnage.jpg");
+gazon = loadImage ("https://www.saint-maclou.com/media/catalog/product/cache/1/base%20image/1540x940/85e4522595efc69f496374d01ef2bf13/1/7/1774_600_p1.jpg");
+gameover = loadImage ("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/2T0t-6V/videoblocks-game-over-8-bit-funky-a-funky-colorful-4k-game-over-screen-animation-letters-falling-towards-the-center-8-bit-retro-style-red-and-yellow_hcqx9_kax_thumbnail-full06.png");
+carlo2 = loadImage ("https://i.skyrock.net/6758/50076758/pics/2025790471_small_1.jpg");
+home = loadImage ("http://fotomelia.com/wp-content/uploads/edd/2015/03/ic%C3%B4ne-maison-bouton-1560x1578.png");
+balle = new Balle(x,y,color(255), 5, 5);
+decor8 = loadImage ("http://viralss.com/images/formidable-maison-bob-l-eponge-0-wip-bob-l233ponge-et-recherche-bluepints-par-dayisamacreation-1600x1000.jpg");
+image(decor8,0,0,1350,700);
+poursuite = loadImage ("http://img.freepik.com/icones-gratuites/fleche-droite_318-133548.jpg?size=338c&ext=jpg");
+image(poursuite,1200,650,100,40);
+}
+  
+  
+void draw() {
+ if (P == 1) {
+  imageMode(CENTER);
+   
+image(gazon,675,350);
+image(homme,x,y,20,20);
+  
+  mur();
+  detectionmur();
+            
+  if (carlo.intersect(x, y)) {              
+         gameover();
+          }              
+   carlo.display();
+   if (balle.mouvement==true){
+  balle.display();
+  balle.bouge();
+  
+
+}
+
+if (mousePressed == true && balle.mouvement== false) 
+{    
+  balle.x=x;
+  balle.y=y;
+  balle.mouvement=true;
+ int VecteurX = (mouseX - x) /75;
+ int VecteurY = (mouseY - y) /75;
+ balle.vitesseX = VecteurX;
+ balle.vitesseY = VecteurY;
+}
+
+if(balle.x > 1350) {
+  balle.mouvement = false; }
+  
+  if(balle.y > 700) {
+  balle.mouvement = false; }
+}
+
+
+ if (P == 2) {
+   
+   imageMode(CENTER);
+     image(bois, 675, 350,1350,700);
+     image(homme,x,y,20,20);
+  
+  mur2();
+  detectionmur();
+            
+  if (carlo.intersect(x, y)) {              
+         gameover();
+          }              
+   carlo.display();
+   if (balle.mouvement==true){
+  balle.display();
+  balle.bouge();
+  
+
+}
+
+if (mousePressed == true && balle.mouvement== false) 
+{    
+  balle.x=x;
+  balle.y=y;
+  balle.mouvement=true;
+ int VecteurX = (mouseX - x) /75;
+ int VecteurY = (mouseY - y) /75;
+ balle.vitesseX = VecteurX;
+ balle.vitesseY = VecteurY;
+}
+
+if(balle.x > 1350) {
+  balle.mouvement = false; }
+  
+  if(balle.y > 700) {
+  balle.mouvement = false; }
+}
+     
+      
+ if(mouseX>1200 && mouseX<1300 && mouseY>650 && mouseY<690 && mousePressed ){P = 1; delay(1000);} 
+
+int Z = (int)(balle.x);
+int U = (int)(balle.y);
+if (carlo.intersect(Z, U)) { 
+      P = 2;
+    }
+}
+
+void mur() {
+
+   fill(mur);
+   rect(0,0,1350,30);
+   rect(1320,0,30,1350);
+   rect(0,670,1350,30);
+   rect(0,0,30,670);
+   
+   rect(130,30,30,290);
+   rect(130,380,30,290);
+   rect(360,80,40,245);
+   rect(360,375,40,245);
+   rect(600,180,50,300);
+   rect(750,30,60,75);
+   rect(750,595,60,75);
+   rect(1000,80,40,245);
+   rect(1000,375,40,245);           //Création des murs
+}
+
+void mur2() {
+   fill(mur );
+   rect(0,0,1350,30);
+   rect(1320,0,30,1350);
+   rect(0,670,1350,30);
+   rect(0,0,30,670);
+   
+   rect(150,30,40,500);
+   rect(150,630,40,40);
+  
+   rect(270,30,20,200);
+   rect(270,280,20,70);
+   rect(270,400,20,150);
+   rect(270,600,20,70);
+   
+   rect(290,210,180,20);
+   rect(290,280,180,20);
+   rect(290,330,180,20); 
+   rect(290,400,180,20);
+   rect(290,530,180,20);
+   rect(290,600,180,20);
+   
+   rect(525,100,200,50);
+   rect(525,220,200,50);
+   rect(525,340,200,50);
+   rect(525,460,200,50);
+   rect(525,580,200,50);
+   
+   rect(800,30,30,100);
+   rect(800,200,30,100);
+   rect(800,370,30,100);
+   rect(800,520,30,100);
+   
+   ellipse(900,165,40,40);
+   ellipse(900,335,40,40);
+   ellipse(900,495,40,40);
+   ellipse(900,645,40,40);
+   
+   rect(1050,130,20,170);
+   rect(1050,400,20,170);
+   rect(1170,180,20,340);
+}
+  
+void detectionmur() {
+  color a = get(x+10,y);
+    color b = get(x, y+10);
+    color c = get(x-10, y);
+    color d = get(x, y-10);         //Détection couleur autour du perso
+      if (a == mur){
+        x=x-4;   
+      }      
+      if (b == mur){
+        y=y-4;
+              }
+       if (c == mur){
+        x=x+4;
+       }
+      if (d == mur){
+       y=y+4;
+      }                       //Si la couleur du mur est égal a la couleur autour du perso, il recule
+}
+  
+   void keyPressed() {
+  if (key == CODED){
+    if (keyCode == LEFT)   x = x - 10;
+    if (keyCode == RIGHT)  x = x + 10;
+    if (keyCode == UP)     y = y - 10;
+    if (keyCode == DOWN)   y = y + 10;      //bouger grâce aux fleches
+  }
+   }
+  
+
+   class ennemi{float _x;
+float _y;
+color couleur;  
+
+ennemi (float nouvX, float nouvY, color nouvCouleur) {
+    _x      = nouvX;
+    _y      = nouvY;
+    couleur    = nouvCouleur;
+  }
+void display() {
+    image(carlo2,1100,300,40,40);                     //Afficher l'ennemi
+  }
+ 
+  boolean intersect(int bobx, int boby) {
+    float distance = dist(_x, _y, bobx, boby);
+    if (distance < 30) {
+      return true;
+    } else {
+      return false;
+    }                                                 //Boolean intersection pour faire le game over
+  }
+  }
+
+void gameover()
+{ 
+  image(gameover,675,350,1350,700);
+  image(fleche, 550,350,70,70);
+  image(home, 800,350,70,70);
+ if(mouseX>500 && mouseX<570 && mouseY>300 && mouseY<370 && mousePressed ) {
+   x = 50;
+   y = 50; //Bouton pour recommencer, le personnage reviens au départ
+  }
+}
+    
